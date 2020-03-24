@@ -1,3 +1,19 @@
 Deploy MySQL
 The example MySQL deployment consists of a ConfigMap, two Services, and a StatefulSet.
 
+
+ConfigMap
+
+# 從以下YAML配置文件創建ConfigMap：
+
+kubectl apply -f mysql-configmap.yaml
+
+Services
+
+# 從以下YAML配置文件創建服務：
+
+kubectl apply -f mysql-services.yaml
+
+StatefulSet
+
+
