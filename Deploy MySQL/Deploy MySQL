@@ -16,4 +16,20 @@ kubectl apply -f mysql-services.yaml
 
 StatefulSet
 
+# 从以下 YAML 配置文件创建 StatefulSet
 
+kubectl apply -f mysql-statefulset.yaml
+
+
+#通过运行以下命令查看启动进度：
+
+kubectl get pods -l app=mysql --watch
+
+#一段时间，會看到3个 Pod 執行：
+
+NAME      READY     STATUS    RESTARTS   AGE
+mysql-0   2/2       Running   0          2m
+mysql-1   2/2       Running   0          1m
+mysql-2   2/2       Running   0          1m
+
+# 输入Ctrl+C 取消觀察
