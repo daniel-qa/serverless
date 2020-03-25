@@ -33,3 +33,31 @@ mysql-1   2/2       Running   0          1m
 mysql-2   2/2       Running   0          1m
 
 # 输入Ctrl+C 取消觀察
+
+
+# 了解 stateful Pod 的初始化
+
+ # StatefulSet 控制器一次按顺序启动 Pod 序数索引。它一直等到每个 Pod 报告就绪为止，然后再开始下一个 Pod。
+
+ # 控制器为每个 Pod 分配一个唯一，稳定的表单名称 <statefulset-name>-<ordinal-index> 
+
+ # ex:  mysql-0，mysql-1 和 mysql-2。
+
+ # StatefulSet 利用这些属性来执行 MySQL 复制的有序启动。
+
+# 生成配置
+ 
+  # 第一個名為的Init容器init-mysql根據序號索引生成特殊的MySQL配置文件。
+  
+# Cloning existing data
+
+ # The second Init Container, named clone-mysql
+ # 從正在運中的 master Pod 複製現在所的數據
+ # MySQL本身不提供此操作的機制，因此該示例使用了一種流行的開源工具Percona XtraBackup。 
+ # 在克隆期間，Master MySQL服務器可能會降低性能。 
+ # 為了減少對 MySQL 主機的影響，該腳本指示每個 Pod 從序號較低的 Pod 中克隆。 
+ # 之所以可以這樣做是因為 StatefulSet 控制器始終確保 Pod N 在啟動 Pod N + 1 之前處於就緒狀態。
+ 
+# Starting replication
+ # 初始化容器成功完成後，常規容器將運行。
+ # MySQL Pods 由運行實際 mysqld 服務器的 mysql 容器和充當小車的 xtrabackup 容器組成。
