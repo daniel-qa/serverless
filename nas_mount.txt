@@ -1,0 +1,20 @@
+volumeMounts:
+            - mountPath: /nas
+              name: nas
+              
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      
+        - name: nas
+          nfs:
+            path: /
+            server: 00d6c49c3c-deb97.cn-hangzhou.nas.aliyuncs.com
+
+#　注意:
+#  容器中，如果沒有對應的路徑
+#  會自動建立目錄
+#  但 nas 則不可以，一定要先有目錄，不然會有問題
